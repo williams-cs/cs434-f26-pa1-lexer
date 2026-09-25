@@ -1,0 +1,21 @@
+
+new1 is an identifier.
+New is not a keyword.
+"\"abc"1 is ok.
+0"abc" is also ok.
+"\\\\\\\\\\\\" is a good string.
+0 123-0 0 0 0 gives 11 tokens!
+!false is true.
+false is not !true.
+{parenthesis mismatch), but it is fine.
+0,1,2,3,4,5 are in ascending order.
+{ a=0, b=1, c=3, printf("abc%d\\%f\t%g\n", a, b+1, c-2);}
+/*comment"*/"string"*/ is not really only a comment
+"/*\"just a string token\"/*"
+12oclock
+-1-2-3-4-5-6-7-
+,1,2,3,4,5,6,7,
+"1"2"3"4"5"6"7"
+.1.2.3.4.5.6.7.
+*1*2*3*4*5*6*7*
+

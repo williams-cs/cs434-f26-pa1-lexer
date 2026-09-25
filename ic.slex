@@ -1,0 +1,60 @@
+# ic.slex -- the Iced Coffee token language.  THIS is your lexer:
+# this file plus the TokenKind enum (src/main/scala/ic/lex/Token.scala)
+# describes every token of IC.
+#
+#   PATTERN { scala-code }   run the code on the matched lexeme;
+#                            `text` and `pos` are in scope; produce
+#                            the Token or call error(...)
+#   PATTERN                  no action: match and discard
+#
+# Two tie-breakers, exactly as in lex (and HW 2): each token is the
+# LONGEST match possible at the current position (maximal munch), and
+# if several rules match that same longest lexeme, the EARLIEST rule
+# wins.  Because of longest match, most rules can go in any order --
+# `<=` beats `<` no matter where each rule sits -- and order only
+# decides between rules that match the SAME lexeme.
+
+%kinds ic.lex.TokenKind
+
+# Fixed-text tokens: each row declares its kind AND places a rule for
+# its literal text at this spot in the rule order.
+#
+# TODO: add every keyword, operator, and punctuation mark of IC
+# (follow the lexical rules in the IC specification).  A keyword row
+# anywhere above the identifier rule beats it on ties -- first rule
+# wins -- so no keyword table is needed anywhere.
+%token
+  LPAREN "("   RPAREN ")"
+
+# whitespace produces no tokens (no action = match and discard)
+# TODO: also skip `//` line comments here.
+[ \t\r\n]+
+
+# C-style (non-nested) block comments, provided: after `/*`, any run
+# of non-`*` characters or of stars not followed by `/`, then one or
+# more stars and the closing `/`.
+/\*([^*]|\*+[^*/])*\*+/
+
+# TODO: identifiers and class identifiers: one rule whose action
+# picks ID or CLS_ID from the lexeme.  (Add the kinds to the
+# TokenKind enum first: every name this spec uses must be a member
+# of the enum, and the enum's members are automatically usable in
+# the blocks below.)
+
+# TODO: integer literals: the regex finds the digits; the action
+# enforces the non-regular parts (no leading zeros, 32-bit range),
+# calling error(...) when they fail.
+
+# TODO: string literals: the regex matches the entire literal --
+# quotes and the legal escapes \t \n \" \\ -- and the action converts
+# the escapes, so a STRINGLIT token's text is the string's *contents*.
+
+# TODO: error rules.  A rule that matches only when nothing better
+# does turns "no rule matches" into a precise message: e.g. a lone
+# `"` (a complete string literal is a longer match, so this rule only
+# wins when the literal never closes) should report the beginning of
+# an unterminated string literal, and a final catch-all should report
+# any invalid input character.
+
+# an example error action; replace it when you make + a real token
+\+                       { error("TODO: '+' is not a token yet") }
